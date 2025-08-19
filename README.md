@@ -21,7 +21,7 @@
 <br />
 <p align="center">
   <a href="https://github.com/CheckmarxDev/ast-cli-maven-plugin">
-    <img src="https://raw.githubusercontent.com/Checkmarx/ci-cd-integrations/main/.images/logo.png" alt="Logo" width="80" height="80" />
+    <img src="https://raw.githubusercontent.com/Checkmarx/ci-cd-integrations/main/.images/cx_azure_x-icon-80px.png" alt="Logo" width="80" height="80" />
   </a>
 
 
@@ -29,7 +29,7 @@
   <p align="center">
     The AST CLI Maven Plugin allows you to use the AST CLI inside Maven.
     <br />
-    <a href=""><strong>Explore the docs »</strong></a>
+    <a href="https://docs.checkmarx.com/en/34965-68718-checkmarx-one-maven-plugin.html#UUID-b98fc723-b965-f205-9bff-8dded9a5d75d_id_ASTMavenPlugin-ASTMavenPluginInitialSetup"><strong>Explore the docs »</strong></a>
     <br />
     <br />
     <a href="https://github.com/CheckmarxDev/ast-cli-maven-plugin/issues/new">Report Bug</a>
