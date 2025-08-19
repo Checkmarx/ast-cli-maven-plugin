@@ -2,10 +2,11 @@ name: PR Linter
 
 on:
   pull_request:
-    types: [opened, edited]
+    types: [opened, edited, reopened]
 
 jobs:
   lint:
+    name: PR Linter
     runs-on: ubuntu-latest
     steps:
       - name: Check PR Title and Branch
