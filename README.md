@@ -20,7 +20,7 @@
 </div>
 <br />
 <p align="center">
-  <a href="https://github.com/CheckmarxDev/ast-cli-maven-plugin">
+  <a href="https://github.com/Checkmarx/ast-cli-maven-plugin">
     <img src="https://raw.githubusercontent.com/Checkmarx/ci-cd-integrations/main/.images/cx_azure_x-icon-80px.png" alt="Logo" width="80" height="80" />
   </a>
 
