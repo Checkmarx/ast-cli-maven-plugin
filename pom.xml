@@ -18,6 +18,18 @@
         <maven.compiler.target>11</maven.compiler.target>
     </properties>
 
+    <dependencyManagement>
+        <dependencies>
+            <!-- Override vulnerable transitive dependency from maven-plugin-api:
+                 plexus-utils < 6d780b33 has a Directory Traversal vulnerability (CVE in Expand.extractFile) -->
+            <dependency>
+                <groupId>org.codehaus.plexus</groupId>
+                <artifactId>plexus-utils</artifactId>
+                <version>4.0.2</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
     <dependencies>
         <dependency>
             <groupId>org.apache.maven</groupId>
