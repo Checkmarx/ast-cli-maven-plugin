@@ -144,3 +144,4 @@ Find more integrations from our team [here](https://github.com/Checkmarx/ci-cd-i
 [issues-url]: https://github.com/CheckmarxDev/ast-cli-maven-plugin/issues
 [license-shield]: https://img.shields.io/github/license/CheckmarxDev/ast-cli-maven-plugin.svg
 [license-url]: https://github.com/CheckmarxDev/ast-cli-maven-plugin/blob/master/LICENSE
+
