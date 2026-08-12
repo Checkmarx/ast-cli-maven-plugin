@@ -42,10 +42,9 @@ logo.png                         Project logo
   │   ├── scan-github-action.yml      Zizmor security scanner (PR + workflow_call)
   │   ├── manual-tag.yml              Manual tag creation (workflow_dispatch)
   │   ├── pr-automation.yml           Auto-add reviewers to PRs (pull_request_target)
-  │   ├── pr-label.yml                Auto-label PRs based on patterns (pull_request)
   │   └── pr-linter.yml               Validate PR title and branch naming (pull_request)
   ├── ISSUE_TEMPLATE/
-  └── pr-labeler.yml                PR labeler configuration
+  └── pr-labeler.yml                PR labeler configuration (unused, workflow removed)
 target/                             Maven build output (gitignored)
 ```
 
