@@ -5,11 +5,15 @@ on:
     tags:
       - "*"
 
+concurrency:
+  group: ${{ github.workflow }}
+  cancel-in-progress: false
+
 permissions:
   contents: read
 
 jobs:
-  release:
+  release: # zizmor: ignore[anonymous-definition]
     permissions:
       contents: write  # for softprops/action-gh-release to create GitHub release
     runs-on: cx-public-ubuntu-x64
@@ -18,8 +22,11 @@ jobs:
         uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1
         with:
           token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
+          persist-credentials: false
 
-      - name: Set env
+      - name: Set release version
+        env:
+          GITHUB_REF: ${{ github.ref }}
         run: echo "RELEASE_VERSION=${GITHUB_REF#refs/*/}" >> $GITHUB_ENV
 
       - name: Cache local Maven repository
@@ -29,6 +36,7 @@ jobs:
           key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
           restore-keys: |
             ${{ runner.os }}-maven-
+          lookup-only: true
 
       - name: Set up Maven Central Repository
         uses: actions/setup-java@c1e323688fd81a25caa38c78aa6df2d33d3e20d9 # v4.8.0
@@ -41,8 +49,10 @@ jobs:
           gpg-private-key: ${{ secrets.MAVEN_GPG_PRIVATE_KEY }}
           gpg-passphrase: MAVEN_GPG_PASSPHRASE
 
-      - name: Update the POM version.
-        run: mvn -B versions:set -DnewVersion='${{ env.RELEASE_VERSION }}' --file pom.xml -DskipTests
+      - name: Update the POM version
+        env:
+          VERSION: ${{ env.RELEASE_VERSION }}
+        run: mvn -B versions:set -DnewVersion='${VERSION}' --file pom.xml -DskipTests
 
       - name: Publish package
         run: mvn --batch-mode deploy -DskipTests

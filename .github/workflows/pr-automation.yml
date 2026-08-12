@@ -1,15 +1,21 @@
 name: PR Automation
 on:
-  pull_request_target:
+  pull_request_target: # zizmor: ignore[dangerous-triggers]
     types: [ready_for_review, opened, reopened]
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
 permissions:
-  contents: none
-  issues: write
-  pull-requests: write
+  contents: none  # no access to repository contents
 
 jobs:
   add-reviewers:
+    name: Request reviewers
+    permissions:
+      issues: write  # for adding reviewers as comments
+      pull-requests: write  # for pr edit command
     runs-on: cx-public-ubuntu-x64
     if: ${{ github.event.pull_request.user.type != 'Bot' }}
     steps:
