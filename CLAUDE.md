@@ -39,7 +39,6 @@ logo.png                         Project logo
   ├── workflows/
   │   ├── release.yml                 Tag-triggered build + GPG sign + deploy to Maven Central
   │   ├── ast-scan.yaml               Checkmarx One self-scan (PR + push + daily 07:00 UTC)
-  │   ├── scan-github-action.yml      Zizmor security scanner (PR + workflow_call)
   │   ├── manual-tag.yml              Manual tag creation (workflow_dispatch)
   │   ├── pr-automation.yml           Auto-add reviewers to PRs (pull_request_target)
   │   └── pr-linter.yml               Validate PR title and branch naming (pull_request)
@@ -121,10 +120,9 @@ All scan logic, authentication, result formatting, and CLI flag parsing live in 
 
 The repository has **no unit/integration test sources** — there is no `src/test/` directory. Validation occurs through:
 
-1. **Zizmor security validation** ([scan-github-action.yml](.github/workflows/scan-github-action.yml)) — runs on every PR to catch GitHub Actions security issues.
-2. **Checkmarx One self-scan** ([ast-scan.yaml](.github/workflows/ast-scan.yaml)) — scans this repo's own source daily and on every PR with thresholds set to `=1` for high/medium/low across SCA/SAST/IaC.
-3. **Release build** ([release.yml](.github/workflows/release.yml)) — `mvn deploy` proves the plugin compiles and packages correctly.
-4. **Manual end-to-end runs** — integration testing against a target project's `pom.xml` by maintainers.
+1. **Checkmarx One self-scan** ([ast-scan.yaml](.github/workflows/ast-scan.yaml)) — scans this repo's own source daily and on every PR with thresholds set to `=1` for high/medium/low across SCA/SAST/IaC.
+2. **Release build** ([release.yml](.github/workflows/release.yml)) — `mvn deploy` proves the plugin compiles and packages correctly.
+3. **Manual end-to-end runs** — integration testing against a target project's `pom.xml` by maintainers.
 
 When adding behaviour to `RunCliMojo`, the expected pattern is `src/test/java/com/checkmarx/ast/cli/maven/plugin/` using `maven-plugin-testing-harness` — but that dependency is not currently in `pom.xml` and must be added.
 
@@ -174,11 +172,7 @@ Required repo secrets: `PERSONAL_ACCESS_TOKEN`, `OSSRH_USERNAME`, `OSSRH_TOKEN`,
 
 ## GitHub Actions Security
 
-All workflows are scanned and validated using **Zizmor**, a GitHub Actions security linter:
-
-- **[scan-github-action.yml](.github/workflows/scan-github-action.yml)** — runs on every PR and `workflow_call` trigger with pedantic persona
-- Validates for: credential persistence (artipacked), template injection, concurrency limits, undocumented permissions, cache poisoning, dangerous triggers
-- All workflows pass Zizmor validation with zero findings
+Workflows follow GitHub Actions security best practices:
 
 **Key security practices enforced:**
 - `persist-credentials: false` on all `actions/checkout` steps
