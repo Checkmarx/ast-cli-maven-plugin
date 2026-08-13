@@ -20,7 +20,7 @@
 </div>
 <br />
 <p align="center">
-  <a href="https://github.com/CheckmarxDev/ast-cli-maven-plugin">
+  <a href="https://github.com/Checkmarx/ast-cli-maven-plugin">
     <img src="https://raw.githubusercontent.com/Checkmarx/ci-cd-integrations/main/.images/cx_azure_x-icon-80px.png" alt="Logo" width="80" height="80" />
   </a>
 
@@ -32,9 +32,9 @@
     <a href="https://docs.checkmarx.com/en/34965-68718-checkmarx-one-maven-plugin.html#UUID-b98fc723-b965-f205-9bff-8dded9a5d75d_id_ASTMavenPlugin-ASTMavenPluginInitialSetup"><strong>Explore the docs »</strong></a>
     <br />
     <br />
-    <a href="https://github.com/CheckmarxDev/ast-cli-maven-plugin/issues/new">Report Bug</a>
+    <a href="https://github.com/Checkmarx/ast-cli-maven-plugin/issues/new">Report Bug</a>
     ·
-    <a href="https://github.com/CheckmarxDev/ast-cli-maven-plugin/issues/new">Request Feature</a>
+    <a href="https://github.com/Checkmarx/ast-cli-maven-plugin/issues/new">Request Feature</a>
   </p>
 </p>
 
@@ -85,7 +85,7 @@ To get a local copy up and running follow these simple example steps.
 
 1. Clone the repo
    ```sh
-   https://github.com/CheckmarxDev/ast-cli-maven-plugin
+   https://github.com/Checkmarx/ast-cli-maven-plugin
    ```
 2. Install the Maven package
    ```sh
@@ -126,7 +126,7 @@ Distributed under the MIT License. See `LICENSE` for more information.
 
 Checkmarx - AST Integrations Team
 
-Project Link: [https://github.com/CheckmarxDev/ast-cli-maven-plugin](https://github.com/CheckmarxDev/ast-cli-maven-plugin)
+Project Link: [https://github.com/Checkmarx/ast-cli-maven-plugin](https://github.com/Checkmarx/ast-cli-maven-plugin)
 
 Find more integrations from our team [here](https://github.com/Checkmarx/ci-cd-integrations#checkmarx-ast-integrations)
 
@@ -135,12 +135,12 @@ Find more integrations from our team [here](https://github.com/Checkmarx/ci-cd-i
 <!-- MARKDOWN LINKS & IMAGES -->
 <!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
 [contributors-shield]: https://img.shields.io/github/contributors/CheckmarxDev/ast-cli-maven-plugin.svg
-[contributors-url]: https://github.com/CheckmarxDev/ast-cli-maven-plugin/graphs/contributors
+[contributors-url]: https://github.com/Checkmarx/ast-cli-maven-plugin/graphs/contributors
 [forks-shield]: https://img.shields.io/github/forks/CheckmarxDev/ast-cli-maven-plugin.svg
-[forks-url]: https://github.com/CheckmarxDev/ast-cli-maven-plugin/network/members
+[forks-url]: https://github.com/Checkmarx/ast-cli-maven-plugin/network/members
 [stars-shield]: https://img.shields.io/github/stars/CheckmarxDev/ast-cli-maven-plugin.svg
-[stars-url]: https://github.com/CheckmarxDev/ast-cli-maven-plugin/stargazers
+[stars-url]: https://github.com/Checkmarx/ast-cli-maven-plugin/stargazers
 [issues-shield]: https://img.shields.io/github/issues/CheckmarxDev/ast-cli-maven-plugin.svg
-[issues-url]: https://github.com/CheckmarxDev/ast-cli-maven-plugin/issues
+[issues-url]: https://github.com/Checkmarx/ast-cli-maven-plugin/issues
 [license-shield]: https://img.shields.io/github/license/CheckmarxDev/ast-cli-maven-plugin.svg
-[license-url]: https://github.com/CheckmarxDev/ast-cli-maven-plugin/blob/master/LICENSE
+[license-url]: https://github.com/Checkmarx/ast-cli-maven-plugin/blob/master/LICENSE
