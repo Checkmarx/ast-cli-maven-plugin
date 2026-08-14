@@ -136,9 +136,9 @@
     </organization>
 
     <scm>
-        <connection>scm:git:git://github.com/CheckmarxDev/ast-cli-maven-plugin.git</connection>
-        <developerConnection>scm:git:ssh://github.com/CheckmarxDev/ast-cli-maven-plugin.git</developerConnection>
-        <url>https://github.com/CheckmarxDev/ast-cli-maven-plugin/tree/master</url>
+        <connection>scm:git:git://github.com/Checkmarx/ast-cli-maven-plugin.git</connection>
+        <developerConnection>scm:git:ssh://github.com/Checkmarx/ast-cli-maven-plugin.git</developerConnection>
+        <url>https://github.com/Checkmarx/ast-cli-maven-plugin/tree/master</url>
     </scm>
 
     <developers>

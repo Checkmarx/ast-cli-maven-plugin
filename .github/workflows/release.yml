@@ -49,6 +49,13 @@ jobs:
           gpg-private-key: ${{ secrets.MAVEN_GPG_PRIVATE_KEY }}
           gpg-passphrase: MAVEN_GPG_PASSPHRASE
 
+      - name: Configure echo mirror for dependency resolution
+        run: |
+          sed -i 's|</servers>|<server><id>echo-repo</id><username></username><password>'"$ECHO_LIBRARIES_ACCESS_KEY"'</password></server></servers>|' ~/.m2/settings.xml
+          sed -i 's|</settings>|<mirrors><mirror><id>echo-repo</id><mirrorOf>*</mirrorOf><url>https://maven.echohq.com</url></mirror></mirrors></settings>|' ~/.m2/settings.xml
+        env:
+          ECHO_LIBRARIES_ACCESS_KEY: ${{ secrets.ECHO_LIBRARIES_ACCESS_KEY }}
+
       - name: Update the POM version
         env:
           VERSION: ${{ env.RELEASE_VERSION }}
