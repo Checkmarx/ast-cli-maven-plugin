@@ -1,9 +1,12 @@
 name: Release Creation
 
 on:
-  push:
-    tags:
-      - "*"
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: 'Release version/tag to create (e.g. 0.0.6)'
+        required: true
+        type: string
 
 concurrency:
   group: ${{ github.workflow }}
@@ -14,6 +17,7 @@ permissions:
 
 jobs:
   release: # zizmor: ignore[anonymous-definition]
+    if: github.ref == 'refs/heads/main'
     environment: release
     permissions:
       id-token: write  # for AWS Secrets Manager via OIDC
@@ -42,8 +46,13 @@ jobs:
 
       - name: Set release version
         env:
-          GITHUB_REF: ${{ github.ref }}
-        run: echo "RELEASE_VERSION=${GITHUB_REF#refs/*/}" >> $GITHUB_ENV
+          INPUT_TAG: ${{ inputs.tag }}
+        run: |
+          if ! [[ "$INPUT_TAG" =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+            echo "::error::Release tag must be a plain version like 1.2.3 (got: '$INPUT_TAG')"
+            exit 1
+          fi
+          echo "RELEASE_VERSION=${INPUT_TAG}" >> "$GITHUB_ENV"
 
       - name: Cache local Maven repository
         uses: actions/cache@0c45773b623bea8c8e75f6c82b208c3cf94ea4f9 # v4.0.2
@@ -97,5 +106,6 @@ jobs:
         uses: step-security/action-gh-release@277bfa82abcfdb73e5bbb19e213fd76532ee2be5 # v3.0.0
         with:
           tag_name: ${{ env.RELEASE_VERSION }}
+          target_commitish: ${{ github.sha }}
           name: ${{ env.RELEASE_VERSION }}
           generate_release_notes: true
