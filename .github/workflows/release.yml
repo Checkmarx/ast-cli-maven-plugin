@@ -14,15 +14,31 @@ permissions:
 
 jobs:
   release: # zizmor: ignore[anonymous-definition]
+    environment: release
     permissions:
+      id-token: write  # for AWS Secrets Manager via OIDC
       contents: write  # for softprops/action-gh-release to create GitHub release
     runs-on: cx-public-ubuntu-x64
     steps:
       - name: Checkout
         uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1
         with:
-          token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
           persist-credentials: false
+
+      - name: Configure AWS Credentials for Secrets Manager
+        uses: step-security/configure-aws-credentials@1448016543d4432bd608e0de7871c7bf9e9be925 # v6.2.1
+        with:
+          role-to-assume: ${{ secrets.SECRET_MANAGER_ROLE_ARN }}
+          aws-region: ${{ secrets.SECRET_MANAGER_AWS_REGION }}
+          role-session-name: release-secrets-fetch
+
+      - name: Fetch secrets from AWS Secrets Manager
+        uses: step-security/aws-secretsmanager-get-secrets@102b6b2a2528747bcc321bb99ef326d8be7ef58f # v3.0.1
+        with:
+          secret-ids: |
+            ,${{ secrets.SECRET_MANAGER_SECRET_NAME }}
+            MAVEN_GPG_PRIVATE_KEY,checkmarx/ast-cli-java-wrapper/maven-gpg-private-key
+          parse-json-secrets: true
 
       - name: Set release version
         env:
@@ -43,10 +59,10 @@ jobs:
         with:
           java-version: '11'
           distribution: 'adopt'
-          server-id: ossrh
+          server-id: central
           server-username: MAVEN_USERNAME
           server-password: MAVEN_PASSWORD
-          gpg-private-key: ${{ secrets.MAVEN_GPG_PRIVATE_KEY }}
+          gpg-private-key: ${{ env.MAVEN_GPG_PRIVATE_KEY }}
           gpg-passphrase: MAVEN_GPG_PASSPHRASE
 
       - name: Configure echo mirror for dependency resolution
@@ -56,17 +72,26 @@ jobs:
         env:
           ECHO_LIBRARIES_ACCESS_KEY: ${{ secrets.ECHO_LIBRARIES_ACCESS_KEY }}
 
+      - name: Pin Maven to 3.9.16
+        # Maven 3.10+ breaks central-publishing-maven-plugin bundling (upstream bug)
+        run: |
+          MAVEN_VERSION=3.9.16
+          # Resolved through the echo-repo mirror configured in ~/.m2/settings.xml above
+          mvn -B -q dependency:copy -Dartifact=org.apache.maven:apache-maven:${MAVEN_VERSION}:tar.gz:bin -DoutputDirectory=/tmp/maven-dist
+          sudo tar -xzf /tmp/maven-dist/apache-maven-${MAVEN_VERSION}-bin.tar.gz -C /opt
+          echo "/opt/apache-maven-${MAVEN_VERSION}/bin" >> $GITHUB_PATH
+
       - name: Update the POM version
         env:
           VERSION: ${{ env.RELEASE_VERSION }}
-        run: mvn -B versions:set -DnewVersion='${VERSION}' --file pom.xml -DskipTests
+        run: mvn -B versions:set -DnewVersion="${VERSION}" --file pom.xml -DskipTests
 
       - name: Publish package
         run: mvn --batch-mode deploy -DskipTests
         env:
-          MAVEN_USERNAME: ${{ secrets.OSSRH_USERNAME }}
-          MAVEN_PASSWORD: ${{ secrets.OSSRH_TOKEN }}
-          MAVEN_GPG_PASSPHRASE: ${{ secrets.MAVEN_GPG_PASSPHRASE }}
+          MAVEN_USERNAME: ${{ env.OSSRH_USERNAME }}
+          MAVEN_PASSWORD: ${{ env.OSSRH_TOKEN }}
+          MAVEN_GPG_PASSPHRASE: ${{ env.MAVEN_GPG_PASSPHRASE }}
 
       - name: Create Release
         uses: step-security/action-gh-release@277bfa82abcfdb73e5bbb19e213fd76532ee2be5 # v3.0.0
